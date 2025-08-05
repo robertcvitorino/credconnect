@@ -46,6 +46,7 @@ dependencies:
   path_provider: ^2.1.5
   validatorless: ^1.2.4
   flutter_secure_storage: ^8.0.0
+  flutter_multi_formatter: ^2.13.7
 
 dev_dependencies:
   flutter_test:
@@ -74,6 +75,7 @@ flutter:
   assets:
     - assets/icon/
     - assets/avatar.png
+    - assets/check-circle.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/to/resolution-aware-images

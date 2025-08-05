@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
+
 
 import 'package:credconnect/core/routes/app_router.dart';
 import 'package:credconnect/feature/login/domain/controller/auth_controller.dart';

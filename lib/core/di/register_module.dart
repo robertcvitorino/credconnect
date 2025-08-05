@@ -1,3 +1,4 @@
+import 'package:credconnect/core/shared/storage_preferences.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:injectable/injectable.dart';
 
@@ -9,4 +10,7 @@ abstract class RegisterModule {
           encryptedSharedPreferences: true,
         ),
       );
+  @lazySingleton
+  IFlutterStorage bindSecureStorage(FlutterSecureStorage storage) =>
+      StoragePreferences( flutterStorage: storage);
 }

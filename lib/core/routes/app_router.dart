@@ -1,6 +1,7 @@
 import 'package:credconnect/feature/dashboard/presentation/dashboard_page.dart';
 import 'package:credconnect/feature/loan/presentation/page/add_customer_page.dart';
 import 'package:credconnect/feature/loan/presentation/page/simulate_loan_page.dart';
+import 'package:credconnect/feature/loan/presentation/page/sucess_page.dart';
 import 'package:credconnect/feature/loan/presentation/page/value_simulate_loan_page.dart';
 import 'package:credconnect/feature/login/presentation/page/login_page.dart';
 import 'package:credconnect/feature/login/presentation/page/signup_page.dart';
@@ -19,7 +20,6 @@ class AppRouter {
   static const String dashboard = '/dashboard';
   static const String valueSimulateLoan = '/value-simulate-loan';
   static const String loanSimulation = '/loan-simulation';
-  static const String loanRequest = '/loan-request';
   static const String newClient = '/new-client';
   static const String success = '/success';
 
@@ -76,13 +76,7 @@ class AppRouter {
           return LoanSimulatePage();
         },
       ),
-      GoRoute(
-        name: loanRequest,
-        path: loanRequest,
-        builder: (BuildContext context, GoRouterState state) {
-          return const Scaffold(body: Center(child: Text('Loan Request Page')));
-        },
-      ),
+      
       GoRoute(
         name: newClient,
         path: newClient,
@@ -94,11 +88,11 @@ class AppRouter {
         name: success,
         path: success,
         builder: (BuildContext context, GoRouterState state) {
-          return const Scaffold(body: Center(child: Text('Success Page')));
+          return SuccessPage();
         },
       ),
     ],
-    // (Opcional) Adicione um errorBuilder para lidar com rotas não encontradas.
+  
     errorBuilder: (context, state) => Scaffold(
       body: Center(
         child: Text('Página não encontrada: ${state.error}'),

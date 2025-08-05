@@ -5,6 +5,7 @@ import 'package:credconnect/feature/loan/domain/event/loan_event.dart';
 import 'package:credconnect/feature/loan/domain/state/loan_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -90,7 +91,7 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
         create: (context) => bloc,
         child: BlocConsumer<LoanBloc, LoanState>(
           listener: (context, state) {
-             if (state is ErrorState) {
+            if (state is ErrorState) {
               var snackBar = SnackBar(
                 content: Text(
                   state.exception.message,
@@ -116,7 +117,10 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                 ),
                 backgroundColor: Colors.green,
               );
-              ScaffoldMessenger.of(context).showSnackBar(snackBar);              
+              ScaffoldMessenger.of(context)
+                  .showSnackBar(snackBar)
+                  .closed
+                  .then((value) => context.go(AppRouter.loanSimulation));
             }
           },
           builder: (context, state) {
@@ -211,7 +215,11 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                       validator: Validatorless.required(
                         'Date of birth is required',
                       ),
+                       inputFormatters: [
+        MaskedInputFormatter('####/##/##'), // yyyy/MM/dd
+      ],
                       controller: birthDateController,
+                      keyboardType: TextInputType.number,
                       decoration: inputDecoration,
                     ),
                     const SizedBox(height: 26),
@@ -296,35 +304,46 @@ class _AddCustomerPageState extends State<AddCustomerPage> {
                     const SizedBox(height: 32),
                     SizedBox(
                       width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          final formValid =
-                              formKey.currentState?.validate() ?? false;
-                          if (formValid) {
-                            addCustomer();
-                          } else {
-                            var snackBar = const SnackBar(
-                              content: Text('Please, check the fields'),
-                              backgroundColor: Colors.red,
+                      child: BlocBuilder<LoanBloc, LoanState>(
+                        builder: (context, state) {
+                          if (state is LoadingState) {
+                            return const CircularProgressIndicator(
+                              color: Color(0xFF1877F2),
+                              backgroundColor: Colors.white,
                             );
-                            ScaffoldMessenger.of(context).showSnackBar(snackBar);
                           }
+                          return ElevatedButton(
+                            onPressed: () {
+                              final formValid =
+                                  formKey.currentState?.validate() ?? false;
+                              if (formValid) {
+                                addCustomer();
+                              } else {
+                                var snackBar = const SnackBar(
+                                  content: Text('Please, check the fields'),
+                                  backgroundColor: Colors.red,
+                                );
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
+                              }
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFF1877F2),
+                              padding: const EdgeInsets.symmetric(vertical: 16),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(6),
+                              ),
+                            ),
+                            child: const Text(
+                              'SAVE NEW CUSTOMER',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          );
                         },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: const Color(0xFF1877F2),
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(6),
-                          ),
-                        ),
-                        child: const Text(
-                          'SAVE NEW CUSTOMER',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.white,
-                            letterSpacing: 0.5,
-                          ),
-                        ),
                       ),
                     ),
                     const SizedBox(height: 24),

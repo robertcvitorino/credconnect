@@ -8,17 +8,19 @@ class LoanController {
 
   void setLoanAmount(double amount) {
     loanAmount = amount;
-    print('Loan amount set to: $loanAmount'); // Para depuração
+    
   }
 
   void setSelectedClient(ClientEntity client) {
     selectedClient = client;
-    print('Client set to: ${selectedClient?.name}'); // Para depuração
+    
   }
 
   void clear() {
     loanAmount = null;
     selectedClient = null;
-    print('Loan flow data cleared.');
+
   }
+
+  void clearClient() => selectedClient = null;
 }

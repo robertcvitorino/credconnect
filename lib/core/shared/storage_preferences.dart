@@ -6,12 +6,11 @@ abstract interface class IFlutterStorage {
   Future read({required String key});
   Future delete({required String key});
   Future deleteAll();
-}
-@lazySingleton
+} @lazySingleton
 class StoragePreferences implements IFlutterStorage {
   final FlutterSecureStorage flutterStorage;
 
-  StoragePreferences({required this.flutterStorage});
+  StoragePreferences( {required this.flutterStorage});
   @override
   Future read({required String key}) async {
     final result = await flutterStorage.read(key: key);

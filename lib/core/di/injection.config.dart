@@ -51,20 +51,22 @@ extension GetItInjectableX on _i174.GetIt {
         flutterStorage: gh<_i558.FlutterSecureStorage>()));
     gh.lazySingleton<_i498.AuthController>(() => _i498.AuthController(
         storagePreferences: gh<_i354.StoragePreferences>()));
+    gh.lazySingleton<_i354.IFlutterStorage>(() =>
+        registerModule.bindSecureStorage(gh<_i558.FlutterSecureStorage>()));
     gh.lazySingleton<_i293.ILoanDataSource>(() =>
         _i293.LoanDataSourceImpl(localDataSource: gh<_i391.LocalDataSource>()));
     gh.lazySingleton<_i357.IAuthDataSource>(() =>
         _i357.AuthDataSourceImpl(localDataSource: gh<_i391.LocalDataSource>()));
-    gh.lazySingleton<_i616.ILoanRepository>(() => _i880.LoanRepositoryImpl(
-          dataSource: gh<_i293.ILoanDataSource>(),
-          storage: gh<_i354.StoragePreferences>(),
-        ));
     gh.lazySingleton<_i557.IAuthRepository>(() => _i357.AuthRepositoryImpl(
           dataSource: gh<_i357.IAuthDataSource>(),
           storage: gh<_i354.IFlutterStorage>(),
         ));
-    gh.factory<_i821.LoanBloc>(
-        () => _i821.LoanBloc(repository: gh<_i616.ILoanRepository>()));
+    gh.lazySingleton<_i616.ILoanRepository>(() =>
+        _i880.LoanRepositoryImpl(dataSource: gh<_i293.ILoanDataSource>()));
+    gh.factory<_i821.LoanBloc>(() => _i821.LoanBloc(
+          repository: gh<_i616.ILoanRepository>(),
+          controller: gh<_i873.LoanController>(),
+        ));
     gh.factory<_i1002.AuthBloc>(
         () => _i1002.AuthBloc(repository: gh<_i557.IAuthRepository>()));
     return this;

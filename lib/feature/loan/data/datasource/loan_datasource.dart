@@ -1,11 +1,13 @@
 import 'package:credconnect/core/database/local_database.dart';
 import 'package:credconnect/core/errors/exception.dart';
 import 'package:credconnect/feature/loan/domain/entity/client_entity.dart';
+import 'package:credconnect/feature/loan/domain/entity/loan_entity.dart';
 import 'package:injectable/injectable.dart';
 import 'package:sqflite/sqflite.dart';
 
 abstract class ILoanDataSource {
   Future<ClientEntity> createClient({required ClientEntity client});
+  Future<bool> createLoan({required LoanEntity loan});
 }
 
 @LazySingleton(as: ILoanDataSource)
@@ -13,16 +15,21 @@ class LoanDataSourceImpl implements ILoanDataSource {
   final LocalDataSource localDataSource;
 
   LoanDataSourceImpl({required this.localDataSource});
- 
 
   @override
   Future<ClientEntity> createClient({required ClientEntity client}) async {
     try {
       final database = await localDataSource.database;
-     
+
       final create = await database.insert(
         'clients',
-        {'name': client.name,'nid': client.nid,'address': client.address,'gender': client.gender,'birth_date': client.birthDate },
+        {
+          'name': client.name,
+          'nid': client.nid,
+          'address': client.address,
+          'gender': client.gender,
+          'birth_date': client.birthDate
+        },
         conflictAlgorithm: ConflictAlgorithm.abort,
       );
 
@@ -50,6 +57,33 @@ class LoanDataSourceImpl implements ILoanDataSource {
       );
 
       return clientEntity;
+    } catch (e) {
+      throw ServerFailure(message: 'Erro ao cadastrar cliente');
+    }
+  }
+
+  @override
+  Future<bool> createLoan({required LoanEntity loan}) async {
+    try {
+      final database = await localDataSource.database;
+
+      final create = await database.insert(
+        'loans',
+        {
+          'client_id': loan.clientId,
+          'value': loan.loanAmount,
+          'request_date': DateTime.now().toString(),
+          'tax': loan.tax,
+          'term': loan.term
+        },
+        conflictAlgorithm: ConflictAlgorithm.abort,
+      );
+
+      if (create == 0) {
+        throw ServerFailure(message: 'Erro ao cadastrar loans');
+      }
+
+      return create > 0;
     } catch (e) {
       throw ServerFailure(message: 'Erro ao cadastrar cliente');
     }

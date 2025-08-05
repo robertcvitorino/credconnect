@@ -3,14 +3,13 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i5;
+import 'dart:async' as _i4;
 
-import 'package:credconnect/core/shared/storage_preferences.dart' as _i6;
 import 'package:credconnect/feature/loan/data/datasource/loan_datasource.dart'
-    as _i4;
+    as _i3;
 import 'package:credconnect/feature/loan/domain/entity/client_entity.dart'
     as _i2;
-import 'package:flutter_secure_storage/flutter_secure_storage.dart' as _i3;
+import 'package:credconnect/feature/loan/domain/entity/loan_entity.dart' as _i5;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -32,85 +31,34 @@ class _FakeClientEntity_0 extends _i1.SmartFake implements _i2.ClientEntity {
     : super(parent, parentInvocation);
 }
 
-class _FakeFlutterSecureStorage_1 extends _i1.SmartFake
-    implements _i3.FlutterSecureStorage {
-  _FakeFlutterSecureStorage_1(Object parent, Invocation parentInvocation)
-    : super(parent, parentInvocation);
-}
-
 /// A class which mocks [ILoanDataSource].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockILoanDataSource extends _i1.Mock implements _i4.ILoanDataSource {
+class MockILoanDataSource extends _i1.Mock implements _i3.ILoanDataSource {
   MockILoanDataSource() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i2.ClientEntity> createClient({
+  _i4.Future<_i2.ClientEntity> createClient({
     required _i2.ClientEntity? client,
   }) =>
       (super.noSuchMethod(
             Invocation.method(#createClient, [], {#client: client}),
-            returnValue: _i5.Future<_i2.ClientEntity>.value(
+            returnValue: _i4.Future<_i2.ClientEntity>.value(
               _FakeClientEntity_0(
                 this,
                 Invocation.method(#createClient, [], {#client: client}),
               ),
             ),
           )
-          as _i5.Future<_i2.ClientEntity>);
-}
-
-/// A class which mocks [StoragePreferences].
-///
-/// See the documentation for Mockito's code generation for more information.
-class MockStoragePreferences extends _i1.Mock
-    implements _i6.StoragePreferences {
-  MockStoragePreferences() {
-    _i1.throwOnMissingStub(this);
-  }
+          as _i4.Future<_i2.ClientEntity>);
 
   @override
-  _i3.FlutterSecureStorage get flutterStorage =>
+  _i4.Future<bool> createLoan({required _i5.LoanEntity? loan}) =>
       (super.noSuchMethod(
-            Invocation.getter(#flutterStorage),
-            returnValue: _FakeFlutterSecureStorage_1(
-              this,
-              Invocation.getter(#flutterStorage),
-            ),
+            Invocation.method(#createLoan, [], {#loan: loan}),
+            returnValue: _i4.Future<bool>.value(false),
           )
-          as _i3.FlutterSecureStorage);
-
-  @override
-  _i5.Future<dynamic> read({required String? key}) =>
-      (super.noSuchMethod(
-            Invocation.method(#read, [], {#key: key}),
-            returnValue: _i5.Future<dynamic>.value(),
-          )
-          as _i5.Future<dynamic>);
-
-  @override
-  _i5.Future<dynamic> write({required String? key, required String? value}) =>
-      (super.noSuchMethod(
-            Invocation.method(#write, [], {#key: key, #value: value}),
-            returnValue: _i5.Future<dynamic>.value(),
-          )
-          as _i5.Future<dynamic>);
-
-  @override
-  _i5.Future<dynamic> delete({required String? key}) =>
-      (super.noSuchMethod(
-            Invocation.method(#delete, [], {#key: key}),
-            returnValue: _i5.Future<dynamic>.value(),
-          )
-          as _i5.Future<dynamic>);
-
-  @override
-  _i5.Future<dynamic> deleteAll() =>
-      (super.noSuchMethod(
-            Invocation.method(#deleteAll, []),
-            returnValue: _i5.Future<dynamic>.value(),
-          )
-          as _i5.Future<dynamic>);
+          as _i4.Future<bool>);
 }
