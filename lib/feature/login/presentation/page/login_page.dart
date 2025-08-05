@@ -1,4 +1,8 @@
+import 'package:credconnect/core/components/custom_text_form_filed.dart';
+import 'package:credconnect/core/components/primary_button.dart';
 import 'package:credconnect/core/routes/app_router.dart';
+import 'package:credconnect/core/theme/app_colors.dart';
+import 'package:credconnect/core/theme/app_text_styles.dart';
 import 'package:credconnect/feature/login/domain/bloc/auth_bloc.dart';
 import 'package:credconnect/feature/login/domain/event/auth_event.dart';
 import 'package:credconnect/feature/login/domain/states/auth_state.dart';
@@ -41,7 +45,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: BlocProvider(
         create: (context) => bloc,
         child: BlocConsumer<AuthBloc, AuthState>(
@@ -50,13 +54,9 @@ class _LoginPageState extends State<LoginPage> {
               var snackBar = SnackBar(
                 content: Text(
                   state.exception.message,
-                  style: TextStyle(
-                      fontFamily: GoogleFonts.karla().fontFamily,
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w400),
+                  style: AppTextStyles.subtitle2.copyWith(fontSize: 15),
                 ),
-                backgroundColor: Colors.red,
+                backgroundColor: AppColors.error,
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
@@ -84,60 +84,35 @@ class _LoginPageState extends State<LoginPage> {
                         const SizedBox(height: 70),
                         Text(
                           'Sign into your\nAccount',
-                          style: TextStyle(
-                              fontSize: 35,
-                              fontWeight: FontWeight.w700,
-                              color: Color(0xFF0066F6),
-                              fontFamily: GoogleFonts.karla().fontFamily),
+                          style:AppTextStyles.headline3, 
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'Log into your CredConnect account',
-                          style: TextStyle(
-                              fontSize: 15,
-                              color: Color(0xFF001533),
-                              fontWeight: FontWeight.w300,
-                              fontFamily: GoogleFonts.karla().fontFamily),
-                        ),
-                        const SizedBox(height: 58),
+                          style:AppTextStyles.subtitle1.copyWith(fontSize: 15),),
+                        const SizedBox(height: 52),
                         Text(
                           'Phone number',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                            color: const Color(0xFF001533),
-                            fontFamily: GoogleFonts.karla().fontFamily,
-                          ),
+                          style:AppTextStyles.subtitle1.copyWith(fontSize: 15)
                         ),
                         const SizedBox(height: 10),
-                        TextFormField(
+                        CustomTextFormField(
                           controller: _phoneController,
                           validator:
                               Validatorless.required('Phone is required'),
-                          keyboardType: TextInputType.phone,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFFF1F5F9),
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 14),
-                          ),
-                        ),
+                          keyboardType: TextInputType.phone, labelText: '',
+                          
+                        ),                        
                         const SizedBox(height: 16),
-                        const Text('Password'),
+                         Text('Password',style:AppTextStyles.subtitle1.copyWith(fontSize: 15)),
                         const SizedBox(height: 6),
-                        TextFormField(
+                        CustomTextFormField(
                           controller: _passwordController,
-                          obscureText: obscureText,
                           validator:
                               Validatorless.required('Password is required'),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFFF1F5F9),
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 10),
-                            suffix: GestureDetector(
+                          obscureText: obscureText,
+                          labelText: '',
+                          suffix: GestureDetector(
                               onTap: () {
                                 obscureText = !obscureText;
                                 setState(() {});
@@ -149,22 +124,18 @@ class _LoginPageState extends State<LoginPage> {
                                 color: Colors.black26,
                               ),
                             ),
-                          ),
-                        ),
+                          
+                        ),                        
                         const SizedBox(height: 12),
                         RichText(
                           text: TextSpan(
-                            style: const TextStyle(
-                                color: Color(0xFF001533), fontSize: 14),
+                           style:AppTextStyles.subtitle1.copyWith(fontSize: 14,fontWeight: FontWeight.w300),
                             children: [
                               const TextSpan(
                                   text: 'Have you forgotten your password?,\n'),
                               TextSpan(
                                 text: 'click here to recover it',
-                                style: const TextStyle(
-                                  color: Color(0xFF1877F2),
-                                  fontWeight: FontWeight.bold,
-                                ),
+                               style:AppTextStyles.subtitle1.copyWith(fontSize: 15,color: AppColors.primary),
                                 recognizer: null,
                               ),
                             ],
@@ -176,23 +147,12 @@ class _LoginPageState extends State<LoginPage> {
                             return state is LoadingState
                                 ? Center(
                                     child: CircularProgressIndicator(
-                                      color: Color(0xFF1877F2),
+                                      color: AppColors.primary,
                                     ),
                                   )
                                 : SizedBox(
                                     width: double.infinity,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xFF1877F2),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 16),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(6),
-                                        ),
-                                      ),
-                                      onPressed: () {
+                                    child: PrimaryButton(text: 'LOG IN', onPressed: () {
                                         final formValid =
                                             _formKey.currentState?.validate() ??
                                                 false;
@@ -210,19 +170,7 @@ class _LoginPageState extends State<LoginPage> {
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(snackBar);
                                         }
-                                      },
-                                      child: Text(
-                                        'LOG IN',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontFamily:
-                                              GoogleFonts.karla().fontFamily,
-                                        ),
-                                      ),
-                                    ),
+                                      },) 
                                   );
                           },
                         ),

@@ -1,7 +1,9 @@
+import 'package:credconnect/core/components/primary_button.dart';
+import 'package:credconnect/core/components/secondary_button.dart';
 import 'package:credconnect/core/routes/app_router.dart';
+import 'package:credconnect/core/theme/app_text_styles.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -19,72 +21,20 @@ class WelcomePage extends StatelessWidget {
             children: [
               Text(
                 'Welcome to CredConnect',
-                style: TextStyle(
-                  fontSize: 42,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xFF001533),
-                  fontFamily: GoogleFonts.karla().fontFamily,
-                ),
+                style: AppTextStyles.headline2.copyWith(fontSize: 42),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 12),
               Text(
                 'The loan bank for everyone.',
-                style: TextStyle(
-                  fontSize: 17,
-                  color: Color(0xFF001533),
-                  fontWeight: FontWeight.w300,
-                  fontFamily: GoogleFonts.karla().fontFamily,
-                ),
+                style: AppTextStyles.subtitle1,
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 160),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Color(0xFF0066F6),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
-                onPressed: () {
-                  context.go(AppRouter.signUpPage);
-                },
-                child: Text(
-                  'CREATE YOUR FREE ACCOUNT',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.5,
-                    fontSize: 15,
-                    fontFamily: GoogleFonts.karla().fontFamily,
-                  ),
-                ),
-              ),
+              PrimaryButton(text: 'CREATE YOUR FREE ACCOUNT', onPressed: () { context.go(AppRouter.signUpPage);}),              
               const SizedBox(height: 12),
-              OutlinedButton(
-                style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Color(0xFFCBD5E1)),
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(6),
-                  ),
-                ),
-                onPressed: () {
-              context.go(AppRouter.login);
-                },
-                child: Text(
-                  'LOG INTO YOUR ACCOUNT',
-                  style: TextStyle(
-                    color: Color(0xFF001533),
-                    fontWeight: FontWeight.w700,
-                    letterSpacing: 0.5,
-                    fontSize: 15,
-                    fontFamily: GoogleFonts.karla().fontFamily,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 32),
+              SecondaryButton(text: 'LOG INTO YOUR ACCOUNT', onPressed: () { context.go(AppRouter.login);}),
+               const SizedBox(height: 32),
             ],
           ),
         ),

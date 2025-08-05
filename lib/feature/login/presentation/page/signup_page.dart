@@ -1,4 +1,8 @@
+import 'package:credconnect/core/components/custom_text_form_filed.dart';
+import 'package:credconnect/core/components/primary_button.dart';
 import 'package:credconnect/core/routes/app_router.dart';
+import 'package:credconnect/core/theme/app_colors.dart';
+import 'package:credconnect/core/theme/app_text_styles.dart';
 import 'package:credconnect/feature/login/domain/bloc/auth_bloc.dart';
 import 'package:credconnect/feature/login/domain/event/auth_event.dart';
 import 'package:credconnect/feature/login/domain/states/auth_state.dart';
@@ -54,19 +58,19 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: AppColors.background,
       body: BlocProvider(
         create: (context) => bloc,
         child: BlocConsumer<AuthBloc, AuthState>(
-          listener: (context, state) {           
+          listener: (context, state) {
             if (state is SucessState) {
               _clear();
-             var snackBar = SnackBar(
+              var snackBar = SnackBar(
                 content: Text(
-                 "User created successfully",
-                  style: TextStyle(fontFamily: GoogleFonts.karla().fontFamily,fontSize: 16,color: Colors.white,fontWeight: FontWeight.w400),
+                  "User created successfully",
+                  style: AppTextStyles.subtitle2,
                 ),
-                backgroundColor: Color( 0xFF0066F6),
+                backgroundColor: AppColors.primary,
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
@@ -74,9 +78,13 @@ class _SignUpPageState extends State<SignUpPage> {
               var snackBar = SnackBar(
                 content: Text(
                   state.exception.message,
-                   style: TextStyle(fontFamily: GoogleFonts.karla().fontFamily,fontSize: 16,color: Colors.white,fontWeight: FontWeight.w400),
+                  style: TextStyle(
+                      fontFamily: GoogleFonts.karla().fontFamily,
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400),
                 ),
-                backgroundColor: Colors.red,
+                backgroundColor: AppColors.error,
               );
               ScaffoldMessenger.of(context).showSnackBar(snackBar);
             }
@@ -102,141 +110,87 @@ class _SignUpPageState extends State<SignUpPage> {
                         const SizedBox(height: 70),
                         Text(
                           'Create Account',
-                          style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.w700,
-                            fontFamily: GoogleFonts.karla().fontFamily,
-                            color: const Color(0xFF0066F6),
-                          ),
+                          style: AppTextStyles.headline3,
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'Open a CredConnect account with a few details.',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w400,
-                            fontFamily: GoogleFonts.karla().fontFamily,
-                            color: const Color(0xFF001533),
-                          ),
+                          style: AppTextStyles.subtitle1.copyWith(fontSize: 15),
                         ),
                         const SizedBox(height: 24),
                         Text(
                           'Full name',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                            color: const Color(0xFF001533),
-                            fontFamily: GoogleFonts.karla().fontFamily,
-                          ),
+                          style: AppTextStyles.subtitle1.copyWith(fontSize: 15),
                         ),
                         const SizedBox(height: 10),
-                        TextFormField(
+                        CustomTextFormField(
                           controller: _nameController,
                           validator:
                               Validatorless.required('Full name is required'),
-                          decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFFF1F5F9),
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 14),
-                          ),
+                          labelText: '',
                         ),
                         const SizedBox(height: 16),
                         Text(
                           'Phone number',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                            color: const Color(0xFF001533),
-                            fontFamily: GoogleFonts.karla().fontFamily,
-                          ),
+                          style: AppTextStyles.subtitle1.copyWith(fontSize: 15),
                         ),
                         const SizedBox(height: 10),
-                        TextFormField(
+                        CustomTextFormField(
                           controller: _phoneController,
+                          keyboardType: TextInputType.phone,
                           validator: Validatorless.multiple([
                             Validatorless.required('Phone number is required'),
                           ]),
-                          keyboardType: TextInputType.phone,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFFF1F5F9),
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 14),
-                          ),
+                          labelText: '',
                         ),
                         const SizedBox(height: 16),
                         Text(
                           'Password',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                            color: const Color(0xFF001533),
-                            fontFamily: GoogleFonts.karla().fontFamily,
-                          ),
+                          style: AppTextStyles.subtitle1.copyWith(fontSize: 15),
                         ),
                         const SizedBox(height: 10),
-                        TextFormField(
-                          obscureText: obscureText,
+                        CustomTextFormField(
                           controller: _passwordController,
                           validator: Validatorless.multiple([
                             Validatorless.required('Password is required'),
                           ]),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFFF1F5F9),
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 10),
-                            suffix: GestureDetector(
-                              onTap: () {
-                                obscureText = !obscureText;
-                                setState(() {});
-                              },
-                              child: Icon(
-                                obscureText
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Colors.black26,
-                              ),
+                          labelText: '',
+                          obscureText: obscureText,
+                          suffix: GestureDetector(
+                            onTap: () {
+                              obscureText = !obscureText;
+                              setState(() {});
+                            },
+                            child: Icon(
+                              obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.black26,
                             ),
                           ),
                         ),
                         const SizedBox(height: 16),
                         Text(
                           'Repeat password',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 15,
-                            color: const Color(0xFF001533),
-                            fontFamily: GoogleFonts.karla().fontFamily,
-                          ),
+                          style: AppTextStyles.subtitle1.copyWith(fontSize: 15),
                         ),
                         const SizedBox(height: 10),
-                        TextFormField(
-                          obscureText: obscureText,
+                        CustomTextFormField(
                           controller: _confirmPasswordController,
                           validator: Validatorless.compare(
                               _passwordController, 'Passwords do not match'),
-                          decoration: InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFFF1F5F9),
-                            border: OutlineInputBorder(),
-                            contentPadding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 10),
-                            suffix: GestureDetector(
-                              onTap: () {
-                                obscureText = !obscureText;
-                                setState(() {});
-                              },
-                              child: Icon(
-                                obscureText
-                                    ? Icons.visibility
-                                    : Icons.visibility_off,
-                                color: Colors.black26,
-                              ),
+                          labelText: '',
+                          obscureText: obscureText,
+                          suffix: GestureDetector(
+                            onTap: () {
+                              obscureText = !obscureText;
+                              setState(() {});
+                            },
+                            child: Icon(
+                              obscureText
+                                  ? Icons.visibility
+                                  : Icons.visibility_off,
+                              color: Colors.black26,
                             ),
                           ),
                         ),
@@ -251,17 +205,8 @@ class _SignUpPageState extends State<SignUpPage> {
                                   )
                                 : SizedBox(
                                     width: double.infinity,
-                                    child: ElevatedButton(
-                                      style: ElevatedButton.styleFrom(
-                                        backgroundColor:
-                                            const Color(0xFF1877F2),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 16),
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(6),
-                                        ),
-                                      ),
+                                    child: PrimaryButton(
+                                      text: 'CREATE YOUR ACCOUNT',
                                       onPressed: () {
                                         final formValid =
                                             _formKey.currentState?.validate() ??
@@ -282,17 +227,6 @@ class _SignUpPageState extends State<SignUpPage> {
                                               .showSnackBar(snackBar);
                                         }
                                       },
-                                      child:  Text(
-                                        'CREATE YOUR ACCOUNT',
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          letterSpacing: 0.5,
-                                          color: Colors.white,
-                                          fontSize: 16,
-                                          fontFamily:
-                                              GoogleFonts.karla().fontFamily,
-                                        ),
-                                      ),
                                     ),
                                   );
                           },
@@ -304,23 +238,15 @@ class _SignUpPageState extends State<SignUpPage> {
                             children: [
                               Text(
                                 "Do you already have a CredConnect account? ",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 15,
-                                  color: const Color(0xFF001533),
-                                  fontFamily: GoogleFonts.karla().fontFamily,
-                                ),
+                                style:AppTextStyles.subtitle1.copyWith(fontSize: 15),
                               ),
                               GestureDetector(
                                 onTap: () {
                                   context.go(AppRouter.login);
                                 },
-                                child: const Text(
+                                child:  Text(
                                   "Sign in here",
-                                  style: TextStyle(
-                                    color: Color(0xFF1877F2),
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: AppTextStyles.headline3.copyWith(fontSize: 15),
                                 ),
                               ),
                             ],

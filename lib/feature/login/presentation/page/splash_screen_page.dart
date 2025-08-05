@@ -1,11 +1,11 @@
 
 
 import 'package:credconnect/core/routes/app_router.dart';
+import 'package:credconnect/core/theme/app_text_styles.dart';
 import 'package:credconnect/feature/login/domain/controller/auth_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class SplashScreenPage extends StatefulWidget {
   const SplashScreenPage({super.key});
@@ -40,11 +40,7 @@ class _SplashScreenPageState extends State<SplashScreenPage> {
       child: Center(
         child: Text(
           'CREDCONNECT',
-          style: TextStyle(
-              color: Color(0xFF0066F6),
-              fontSize: 36,
-              fontWeight: FontWeight.w400,
-              fontFamily: GoogleFonts.koulen().fontFamily),
+          style: AppTextStyles.headline1,
         ),
       ),
     );
